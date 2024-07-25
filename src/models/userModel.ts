@@ -4,7 +4,7 @@ import Post from "./postModel";
 import Comment from "./commentModel";
 class User extends Model {
   public id!: number;
-  public username!: string;
+  public userName!: string;
   public email!: string;
 
   // Associations
