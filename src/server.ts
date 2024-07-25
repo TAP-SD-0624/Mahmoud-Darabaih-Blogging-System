@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 (async () => {
   try {
+    // test connection
     await sequelizeObj
       .authenticate()
       .then(() => {
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3000;
       .catch((err) => {
         console.error("connection failed err: ", err);
       });
+    // Sync tables with the database
     await sequelizeObj
       .sync()
       .then(() => {
@@ -22,7 +24,7 @@ const PORT = process.env.PORT || 3000;
         });
       })
       .catch((err) => {
-        console.error("Sync failed err: ", err);
+        console.error("Sync failed err: ", err.message);
       });
   } catch (error) {
     console.error(
