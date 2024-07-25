@@ -3,10 +3,10 @@ import { userRouter } from "./routes/userRoutes";
 import { postRouter } from "./routes/postsRoutes";
 
 const app: Application = express();
-//user routes
-app.use(userRouter);
-app.use(postRouter);
 
-app.listen(3000, () => {
-  console.log("the app is running ion port 3000");
-});
+app.use(express.json());
+
+app.use("/api/users", userRouter);
+app.use("/api/posts", postRouter);
+
+export default app;
