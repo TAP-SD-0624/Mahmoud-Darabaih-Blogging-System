@@ -11,4 +11,4 @@ userRouter.post("/api/users", userControllers.createNewUser);
 // update user data
 userRouter.put("/api/users/:userID", userControllers.updateUser);
 // delete user
-userRouter.delete("/api/users:/userID", userControllers.deleteUser);
+userRouter.delete("/api/users/:userID", userControllers.deleteUser);

@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
 
-// get all users controller
+// get all users
 const showAllUsers = (req: Request, res: Response): void => {
-  console.log("this is all users page");
-  res.status(200).send("changes");
+  res.status(200).send("show all users");
 };
 
 // get specific user by its ID
