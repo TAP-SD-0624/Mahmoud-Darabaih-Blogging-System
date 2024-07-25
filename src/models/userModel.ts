@@ -1,6 +1,21 @@
-import { DataTypes, Model } from "sequelize";
+import { Association, DataTypes, Model } from "sequelize";
 import sequelize from "../config/database-connection";
-class User extends Model {}
+import Post from "./postModel";
+import Comment from "./commentModel";
+class User extends Model {
+  public id!: number;
+  public username!: string;
+  public email!: string;
+
+  // Associations
+  public readonly posts?: Post[];
+  public readonly comments?: Comment[];
+
+  public static associations: {
+    posts: Association<User, Post>;
+    comments: Association<User, Comment>;
+  };
+}
 
 User.init(
   {
@@ -9,9 +24,10 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    userName: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
