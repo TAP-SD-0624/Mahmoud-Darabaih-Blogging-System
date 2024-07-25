@@ -3,32 +3,23 @@ import postControllers from "../controllers/postController";
 export const postRouter: Router = express.Router();
 
 // Get all posts with associated users, categories, and comments
-postRouter.get("/api/posts", postControllers.showAllPosts);
+postRouter.get("/", postControllers.showAllPosts);
 // Get post by ID with associated users, categories, and comments
-postRouter.get("/api/posts/:postID", postControllers.showPostByID);
+postRouter.get("/:postID", postControllers.showPostByID);
 // Get categories for a specific post
-postRouter.get(
-  "/api/posts/:postID/:categories",
-  postControllers.showCategoryForPost
-);
+postRouter.get("/:postID/:categories", postControllers.showCategoryForPost);
 // Get comments for a specific post
-postRouter.get(
-  "/api/posts/:postID/:comments",
-  postControllers.showCommentsForPost
-);
+postRouter.get("/:postID/:comments", postControllers.showCommentsForPost);
 // create new post
-postRouter.post("/api/posts", postControllers.createNewPost);
+postRouter.post("", postControllers.createNewPost);
 // create a new category for a post
 postRouter.post(
-  "/api/posts/:postId/categories",
+  "/:postId/categories",
   postControllers.createNewCategoryForPost
 );
 // create a new comment for a post
-postRouter.post(
-  "/api/posts/:postId/comments",
-  postControllers.createNewCommentForPost
-);
+postRouter.post("/:postId/comments", postControllers.createNewCommentForPost);
 // update post by ID
-postRouter.put("/api/posts/:postID", postControllers.updatePost);
+postRouter.put("/:postID", postControllers.updatePost);
 // delete post by ID
-postRouter.delete("/api/posts/:postID", postControllers.deletePost);
+postRouter.delete("/:postID", postControllers.deletePost);
