@@ -7,7 +7,6 @@ class Post extends Model {
   public id!: number;
   public title!: string;
   public content!: string;
-  public userId!: number;
 
   // Associations
   public readonly user?: User;
@@ -23,7 +22,7 @@ class Post extends Model {
 Post.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
@@ -33,10 +32,6 @@ Post.init(
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    userID: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

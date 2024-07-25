@@ -5,9 +5,6 @@ import User from "./userModel";
 class Comment extends Model {
   public id!: number;
   public content!: string;
-  public userId!: number;
-  public postId!: number;
-
   // Associations
   public readonly user?: User;
   public readonly post?: Post;
@@ -20,20 +17,12 @@ class Comment extends Model {
 Comment.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+      type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
+      primaryKey: true,
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    postID: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
