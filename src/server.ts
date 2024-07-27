@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
       });
     // Sync tables with the database
     await sequelizeObj
-      .sync()
+      .sync() //{ force: true }
       .then(() => {
         console.log("All models were synchronized successfully.");
         app.listen(PORT, () => {

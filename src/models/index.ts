@@ -16,13 +16,11 @@ Post.belongsTo(User, {
 });
 
 // Category - Post relationship (Many-to-Many)
-Category.belongsToMany(Post, {
-  through: "PostCategories",
-  as: "posts",
-});
 Post.belongsToMany(Category, {
   through: "PostCategories",
-  as: "categories",
+});
+Category.belongsToMany(Post, {
+  through: "PostCategories",
 });
 
 // User - Comment relationship (One-to-Many)
