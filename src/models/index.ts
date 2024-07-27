@@ -7,12 +7,12 @@ import Comment from "./commentModel";
 User.hasMany(Post, {
   sourceKey: "id",
   foreignKey: "userId",
-  as: "posts",
+  as: "user posts",
 });
 Post.belongsTo(User, {
   targetKey: "id",
   foreignKey: "userId",
-  as: "user",
+  as: "author",
 });
 
 // Category - Post relationship (Many-to-Many)
@@ -29,12 +29,12 @@ Post.belongsToMany(Category, {
 User.hasMany(Comment, {
   sourceKey: "id",
   foreignKey: "userId",
-  as: "comments",
+  as: "user's comments",
 });
 Comment.belongsTo(User, {
   targetKey: "id",
   foreignKey: "userId",
-  as: "user",
+  as: "comment author",
 });
 
 // Post - Comment relationship (One-to-Many)
