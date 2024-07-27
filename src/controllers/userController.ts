@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { User } from "../models";
-import { handleError } from "../utils/errorHandler";
+import {
+  handleError,
+  notFoundError,
+  badRequestError,
+} from "../utils/errorHandler";
 // get all users
 const showAllUsers = async (req: Request, res: Response) => {
   try {
@@ -21,9 +25,7 @@ const showUserByID = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: `User with ID ${userId} not found` });
+      return notFoundError(res, `User with ID ${userId} not found`);
     }
 
     console.log("User found: ", user);
@@ -39,9 +41,7 @@ const createNewUser = async (req: Request, res: Response) => {
     const { userName, email } = req.body;
 
     if (!userName || !email) {
-      return res
-        .status(400)
-        .json({ message: "Please provide username and email" });
+      return badRequestError(res, "Please provide username and email");
     }
 
     const newUser = await User.create({ userName, email });
@@ -66,7 +66,7 @@ const updateUser = async (req: Request, res: Response) => {
     const { userName, email } = req.body;
 
     if (!userName && !email) {
-      return res.status(400).json({ message: "Please provide data to update" });
+      return badRequestError(res, "Please provide data to update");
     }
 
     const [updated] = await User.update(
@@ -75,13 +75,16 @@ const updateUser = async (req: Request, res: Response) => {
     );
 
     if (!updated) {
-      return res.status(404).json({ message: "User not found" });
+      return notFoundError(res, `User with ID ${userId} not found`);
     }
 
     const updatedUser = await User.findByPk(userId);
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      return notFoundError(
+        res,
+        `User with ID ${userId} not found after updating it!!`
+      );
     }
 
     return res.status(200).json({
@@ -100,7 +103,7 @@ const deleteUser = async (req: Request, res: Response) => {
     const deleted = await User.destroy({ where: { id: userId } });
 
     if (!deleted) {
-      return res.status(404).json({ message: "User not found" });
+      return notFoundError(res, `User with ID ${userId} not found`);
     }
 
     return res.status(200).json({ message: "User deleted successfully" });
