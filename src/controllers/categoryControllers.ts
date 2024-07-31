@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
-import { User, Post, Category, Comment, PostCategories } from "../models";
-import {
-  handleError,
-  notFoundError,
-  badRequestError,
-} from "../utils/errorHandler";
+import { Category } from "../models";
+import { handleError, badRequestError } from "../utils/errorHandler";
 import { where } from "sequelize";
 
 const showAllCategories = async (req: Request, res: Response) => {
