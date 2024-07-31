@@ -190,7 +190,7 @@ const showCommentsForPost = async (req: Request, res: Response) => {
       return notFoundError(res, `Post with ID ${postId} not found`);
     }
     console.log(`Comments for post with ID ${postId} displayed correctly`);
-    return res.json(post.comments);
+    return res.json(post);
   } catch (error) {
     return handleError(res, error, "Error fetching comments for post");
   }
@@ -199,9 +199,9 @@ const showCommentsForPost = async (req: Request, res: Response) => {
 const createNewCommentForPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.postID;
-    const { content, userId } = req.body;
+    const { commentContent, userId } = req.body;
 
-    if (!content || !userId) {
+    if (!commentContent || !userId) {
       return badRequestError(res, "Please provide comment content and userId");
     }
 
@@ -216,7 +216,7 @@ const createNewCommentForPost = async (req: Request, res: Response) => {
     }
 
     const newComment = await Comment.create({
-      content,
+      content: commentContent,
       userId,
       postId,
     });
