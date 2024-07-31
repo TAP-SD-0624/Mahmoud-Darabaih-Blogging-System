@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User, Post, Category, Comment } from "../models";
+import { User, Post, Category, Comment, PostCategories } from "../models";
 import {
   handleError,
   notFoundError,
@@ -140,41 +140,13 @@ const showCategoryForPost = async (req: Request, res: Response) => {
   }
 };
 const createNewCategoryForPost = async (req: Request, res: Response) => {
+  const postID = req.params.postID;
+  const { categoryID } = req.body;
   try {
-    const postId = req.params.postID;
-    const { name } = req.body;
-
-    if (!name) {
-      return badRequestError(res, "Please provide a category name");
-    }
-
-    const post = await Post.findByPk(postId);
-    if (!post) {
-      return notFoundError(res, `Post with ID ${postId} not found`);
-    }
-
-    const [category, created] = await Category.findOrCreate({
-      where: { name },
-      defaults: { name },
-    });
-
-    //    await post.addCategory(category);
-
-    console.log(
-      `Category ${created ? "created and" : ""} added to post with ID ${postId}`
-    );
-    return res.status(201).json({
-      message: `Category ${
-        created ? "created and" : ""
-      } added to post successfully`,
-      category,
-    });
+    await PostCategories.create({ PostId: postID, CategoryId: categoryID });
+    res.status(201).json({ status: "success" });
   } catch (error) {
-    return handleError(
-      res,
-      error,
-      "Error creating/adding new category for post"
-    );
+    return handleError(res, error, "Error adding category for a post");
   }
 };
 const showCommentsForPost = async (req: Request, res: Response) => {
