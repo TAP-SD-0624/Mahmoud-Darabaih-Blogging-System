@@ -128,13 +128,21 @@ const showCategoryForPost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.postID;
     const post = await Post.findByPk(postId, {
-      include: [{ model: Category, as: "Categories" }],
+      include: [
+        { model: User, as: "author", attributes: ["userName"] },
+        {
+          model: Category,
+          as: "Categories",
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
+      ],
     });
     if (!post) {
       return notFoundError(res, `Post with ID ${postId} not found`);
     }
     console.log(`Categories for post with ID ${postId} displayed correctly`);
-    return res.json(post.categories);
+    return res.send(post);
   } catch (error) {
     return handleError(res, error, "Error fetching categories for post");
   }
