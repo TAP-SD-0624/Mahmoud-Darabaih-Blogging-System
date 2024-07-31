@@ -6,6 +6,7 @@ class User extends Model {
   public id!: number;
   public userName!: string;
   public email!: string;
+  public password!: string;
 
   // Associations
   public readonly posts?: Post[];
@@ -33,6 +34,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+    },
+    password: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
     },
   },
   {
