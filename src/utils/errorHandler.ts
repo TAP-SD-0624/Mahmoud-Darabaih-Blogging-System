@@ -18,3 +18,6 @@ export const notFoundError = (res: Response, message: string) => {
 export const badRequestError = (res: Response, message: string) => {
   return res.status(400).json({ message });
 };
+export const invalidCredentialsError = (res: Response, message: string) => {
+  return res.status(401).json({ message });
+};
