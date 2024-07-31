@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Category } from "../models";
 import { handleError, badRequestError } from "../utils/errorHandler";
-import { where } from "sequelize";
 
 const showAllCategories = async (req: Request, res: Response) => {
   try {
@@ -57,4 +56,8 @@ const deleteCategory = async (req: Request, res: Response) => {
     handleError(res, error, `fail delete the category with ID: ${categoryID}`);
   }
 };
-export default { showAllCategories, createNewCategory, deleteCategory };
+export default {
+  showAllCategories,
+  createNewCategory,
+  deleteCategory,
+};
