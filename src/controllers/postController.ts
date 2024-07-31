@@ -151,6 +151,17 @@ const createNewCategoryForPost = async (req: Request, res: Response) => {
   const postID = req.params.postID;
   const { categoryID } = req.body;
   try {
+    const categoryExists = await PostCategories.findOne({
+      where: {
+        PostId: postID,
+        CategoryId: categoryID,
+      },
+    });
+    if (categoryExists) {
+      return res
+        .status(201)
+        .json({ status: "the category already exist for this post" });
+    }
     await PostCategories.create({ PostId: postID, CategoryId: categoryID });
     res.status(201).json({ status: "success" });
   } catch (error) {
