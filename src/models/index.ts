@@ -2,6 +2,7 @@ import User from "./userModel";
 import Post from "./postModel";
 import Category from "./categoryModel";
 import Comment from "./commentModel";
+import PostCategories from "./PostCategories";
 
 // User - Post relationship (One-to-Many)
 User.hasMany(Post, {
@@ -17,10 +18,10 @@ Post.belongsTo(User, {
 
 // Category - Post relationship (Many-to-Many)
 Post.belongsToMany(Category, {
-  through: "PostCategories",
+  through: PostCategories,
 });
 Category.belongsToMany(Post, {
-  through: "PostCategories",
+  through: PostCategories,
 });
 
 // User - Comment relationship (One-to-Many)
@@ -47,4 +48,4 @@ Comment.belongsTo(Post, {
   as: "post",
 });
 
-export { User, Post, Category, Comment };
+export { User, Post, Category, Comment, PostCategories };
