@@ -9,6 +9,8 @@ userRouter.get("/:userID", userControllers.showUserByID);
 userRouter.get("/", userControllers.showAllUsers);
 // create new user
 userRouter.post("/", userControllers.createNewUser);
+// user login
+userRouter.post("/login", userControllers.login);
 // update user data
 userRouter.put("/:userID", userControllers.updateUser);
 // delete user
