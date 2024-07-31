@@ -4,7 +4,9 @@ import {
   handleError,
   notFoundError,
   badRequestError,
+  invalidCredentialsError,
 } from "../utils/errorHandler";
+import bcrypt from "bcrypt";
 // get all users
 const showAllUsers = async (req: Request, res: Response) => {
   try {
@@ -38,13 +40,17 @@ const showUserByID = async (req: Request, res: Response) => {
 // create new user
 const createNewUser = async (req: Request, res: Response) => {
   try {
-    const { userName, email } = req.body;
+    const { userName, email, password } = req.body;
 
-    if (!userName || !email) {
-      return badRequestError(res, "Please provide username and email");
+    if (!userName || !email || !password) {
+      return badRequestError(res, "Please provide username and password");
     }
-
-    const newUser = await User.create({ userName, email });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({
+      userName,
+      email,
+      password: hashedPassword,
+    });
     console.log("User created successfully");
     return res.status(201).json({
       message: "User created successfully",
@@ -52,6 +58,7 @@ const createNewUser = async (req: Request, res: Response) => {
         id: newUser.id,
         userName: newUser.userName,
         email: newUser.email,
+        password: newUser.password,
       },
     });
   } catch (error) {
@@ -59,6 +66,23 @@ const createNewUser = async (req: Request, res: Response) => {
   }
 };
 
+// login
+const login = async (req: Request, res: Response) => {
+  try {
+    const { userName, password } = req.body;
+    const user = await User.findOne({ where: { userName } });
+    if (!user) {
+      return notFoundError(res, `User with username: ${userName} not found`);
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return invalidCredentialsError(res, "Invalid password");
+    }
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    return handleError(res, error, "Error in the login process");
+  }
+};
 // update user data
 const updateUser = async (req: Request, res: Response) => {
   try {
@@ -118,4 +142,5 @@ export default {
   createNewUser,
   updateUser,
   deleteUser,
+  login,
 };
