@@ -45,11 +45,11 @@ const createNewUser = async (req: Request, res: Response) => {
     if (!userName || !email || !password) {
       return badRequestError(res, "Please provide username and password");
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await User.hashPassword(password);
     const newUser = await User.create({
       userName,
       email,
-      password: hashedPassword,
+      password: hashedPassword.toString(),
     });
     console.log("User created successfully");
     return res.status(201).json({
