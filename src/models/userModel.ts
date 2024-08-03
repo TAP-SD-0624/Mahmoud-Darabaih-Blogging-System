@@ -1,6 +1,7 @@
 import { Association, DataTypes, Model } from "sequelize";
 import sequelize from "../config/database-connection";
 import Post from "./postModel";
+import bcrypt from "bcrypt";
 import Comment from "./commentModel";
 class User extends Model {
   public id!: number;
@@ -16,6 +17,13 @@ class User extends Model {
     posts: Association<User, Post>;
     comments: Association<User, Comment>;
   };
+  static async hashPassword(password: string) {
+    return bcrypt.hash(password, 10);
+  }
+
+  async validatePassword(password: string) {
+    return bcrypt.compare(password, this.password);
+  }
 }
 
 User.init(
