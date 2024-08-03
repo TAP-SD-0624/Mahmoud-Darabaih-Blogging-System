@@ -43,10 +43,17 @@ const createNewPost = async (req: Request, res: Response) => {
     if (!user) {
       return notFoundError(res, `User with ID ${userId} not found`);
     }
-
+    if (user.userName !== req.params.name) {
+      return badRequestError(
+        res,
+        "you are trying to create a post using another user name" +
+          ` current user name ${req.params.name}, attempt to create post for user ${user.userName}`
+      );
+    }
     const newPost = await Post.create({ title, content, userId });
     console.log("New post created successfully");
     return res.status(201).json({
+      currentUser: req.params.name,
       message: "Post created successfully",
       post: newPost,
     });
