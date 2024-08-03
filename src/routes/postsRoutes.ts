@@ -1,12 +1,13 @@
 import express, { Router } from "express";
 import postControllers from "../controllers/postController";
+import { authenticate } from "../middlewares/auth";
 export const postRouter: Router = express.Router();
 
 // Get all posts with associated users, categories, and comments
 postRouter.get("/", postControllers.showAllPosts);
 
 // Create new post
-postRouter.post("/", postControllers.createNewPost);
+postRouter.post("/", authenticate, postControllers.createNewPost);
 
 // Get post by ID with associated users, categories, and comments
 postRouter.get("/:postID", postControllers.showPostByID);
